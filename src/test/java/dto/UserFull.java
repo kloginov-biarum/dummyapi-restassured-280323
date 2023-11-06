@@ -1,13 +1,10 @@
 package dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 
-@Setter@Getter@NoArgsConstructor@AllArgsConstructor
+@Setter@Getter@NoArgsConstructor@AllArgsConstructor@Builder
 public class UserFull {
     private String id;
     private String title;

@@ -5,7 +5,10 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
+import java.util.Random;
+
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.when;
 
 public class BaseTest {
 
@@ -30,5 +33,45 @@ public class BaseTest {
                 .statusCode(responseCode)
                 .extract().response();
         return response;
+    }
+
+    public static Response postRequest(String endpoint, Integer responseCode, Object body){
+        Response response = given()
+                .spec(specification)
+                .body(body)
+                .when()
+                .log().all()
+                .post(endpoint)
+                .then()
+                .log().all()
+                .statusCode(responseCode)
+                .extract().response();
+        return response;
+    }
+
+    public static Response deleteRequest(String endpoint, Integer responseCode){
+        Response response = given()
+                .spec(specification)
+                .when()
+                .log().all()
+                .delete(endpoint)
+                .then()
+                .log().all()
+                .statusCode(responseCode)
+                .extract().response();
+        return response;
+    }
+
+    public static String getRandomEmail() {
+        String SALTCHARS =
+                "abcdefghijklmopqrstuwxyz1234567890";
+        StringBuilder salt = new StringBuilder();
+        Random rnd = new Random();
+        while (salt.length() < 10) { // length of the random string.
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            salt.append(SALTCHARS.charAt(index));
+        }
+        String saltStr = salt.toString();
+        return saltStr + "@gmail.com";
     }
 }
